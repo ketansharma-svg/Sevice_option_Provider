@@ -227,7 +227,7 @@ export default function RegisterForm() {
               <option value="user">User</option>
               <option value="Admin">Admin</option>
             </select>
-          </div> */}
+          </div>  */}
 
           {/* Button */}
           <button

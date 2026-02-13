@@ -106,10 +106,12 @@ export async function Pdftextextract(req: NextRequest) {
          const create=new UserPDF({
            name:"User",
            textContent:text,
-           BranchId:Branch
-
+           BranchId:Branch,
+           Output:""
          })
-         await create.save()
+      let savedata=await create.save()
+
+      console.log("savedData",savedata._id)
          if(!Branch|| typeof Branch!=="string")return NextResponse.json({message:Branch })
         let objectID=new mongoose.Types.ObjectId(Branch)
 
@@ -124,7 +126,11 @@ export async function Pdftextextract(req: NextRequest) {
 
       }
          let mainProposal= await AIProposal(value)
-
+         console.log("mainProposal",mainProposal)
+        
+         let updatingvalue=await UserPDF.findByIdAndUpdate(savedata._id.toString(),{$set:{Output:mainProposal}},{new:true})
+       console.log("updatingvalue",updatingvalue)
+         
 
     }
 

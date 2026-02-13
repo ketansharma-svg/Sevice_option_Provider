@@ -12,6 +12,12 @@ let userpdf=new mongoose.Schema({
   BranchId:{
     type:String,
     required:true
+  },
+  Output:{
+    type: String,
+      required: false,
+      default: "",
+
   }
 
 

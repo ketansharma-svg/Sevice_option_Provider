@@ -19,7 +19,7 @@ export default function SOPSection() {
   const [selectedId, setSelectedID] = useState<string>("");
   const [pdf, setPdf] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
-
+  const [genratedisabled,setDisabled]=useState(true)
   // 🔹 select change
   function handleSelect(id: string) {
     setSelectedID(id);
@@ -58,13 +58,21 @@ export default function SOPSection() {
 
       const res = await axios.post("/api/UserData", formData);
       console.log("Upload success", res.data);
-      alert("PDF uploaded successfully");
+  
+      alert("PDF uploaded successfully"); 
+ setDisabled(true)
+
     } catch (err) {
       console.log("Upload error", err);
     } finally {
       setLoading(false);
     }
   }
+
+function genratepdf(){
+  console.log("genrate the PDF")
+}
+
 
   return (
     <section className="py-16 bg-gray-50">
@@ -166,7 +174,13 @@ export default function SOPSection() {
           >
             {loading ? "Uploading..." : "Submit PDF"}
           </button>
+
+
+
         </form>
+        <button className={`bg-blue-700 text-white px-2.5 py-1.5 rounded-sm hover:bg-blue-800 ${genratedisabled && "cursor-not-allowed" }`} onClick={genratepdf} disabled={genratedisabled}>
+           Genrate Docx.
+        </button>
       </div>
     </section>
   );
