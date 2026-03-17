@@ -60,8 +60,8 @@ export default function SOPSection() {
       console.log("Upload success", res.data);
   
       alert("PDF uploaded successfully"); 
- setDisabled(true)
-
+ setDisabled(false)
+ 
     } catch (err) {
       console.log("Upload error", err);
     } finally {
@@ -69,8 +69,31 @@ export default function SOPSection() {
     }
   }
 
-function genratepdf(){
-  console.log("genrate the PDF")
+async function genratepdf(){
+         try{
+            let value=await axios.get("api/pdfGenrate",{
+    responseType: "blob", // 👈 very important
+  });
+            console.log("response Pdf genration ",value.data)
+
+
+            const blob = new Blob([value.data], {
+    type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  });
+            console.log("blob",blob)
+            let url=URL.createObjectURL(blob)
+            let link=document.createElement("a")
+            link.href=url
+            link.download="w3eraa Proposal.docx"
+            document.body.appendChild(link)
+            link.click()
+            link.remove()
+
+            URL.revokeObjectURL(url)
+         }catch(err){
+          console.log("errors in pdf genration", err)
+         }
+        console.log("chl gya n ")
 }
 
 
