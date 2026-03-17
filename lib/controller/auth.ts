@@ -49,86 +49,62 @@ export async function AIProposal(req:value){
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-let Prompt = `
-You are a senior Business Consultant and Professional Proposal Writer.
+let Prompt=`You are a professional Business Consultant and Proposal Writer.
 
 TASK:
-You will receive two inputs:
-1. COMPANY PROPOSAL – our company’s services, strengths, experience, and positioning
-2. CLIENT REQUIREMENTS – client needs, goals, industry, and expectations
+You will be given:
+1. A COMPANY PROPOSAL (our company’s services, strengths, pricing style, tone)
+2. A CLIENT PROPOSAL / REQUIREMENT (client needs, expectations, industry, goals)
 
-OBJECTIVE:
-- Carefully read and understand both inputs
-- Create a NEW, CUSTOMIZED, CLIENT-SPECIFIC BUSINESS PROPOSAL
-- Do NOT copy content directly
-- Rewrite everything clearly, professionally, and persuasively
-- The proposal must sound human-written, business-ready, and client-focused
+Your job is to:
+- Carefully READ and UNDERSTAND both documents
+- Merge the company’s strengths with the client’s exact needs
+- Create a NEW, CUSTOMIZED, CLIENT-READY BUSINESS PROPOSAL
+- Do NOT copy-paste content directly
+- Rewrite everything in a professional, persuasive, and client-focused way
 
-WRITING RULES:
-- Write ONLY for the client
-- Simple, clear, professional English
-- No generic or AI-sounding phrases
-- Focus on how OUR company solves CLIENT problems
-- Confident, trustworthy, and consultancy tone
+IMPORTANT RULES:
+- Proposal must be written ONLY for the client
+- Use simple, clear, and professional English
+- Highlight how OUR company solves CLIENT problems
+- Keep the tone confident, trustworthy, and business-ready
+- No generic content, no AI-like wording
 
-STRUCTURE (STRICTLY FOLLOW THIS ORDER):
+STRUCTURE OF FINAL PROPOSAL:
+1. Title Page (Project Name + Client Name)
+2. Introduction & Understanding of Client Needs
+3. Our Company Overview (short & relevant)
+4. Proposed Solution (mapped exactly to client requirements)
+5. Scope of Work (clear bullet points)
+6. Deliverables
+7. Timeline / Milestones
+8. Pricing / Commercials (if info is available, otherwise say "To be discussed")
+9. Why Choose Us (unique advantages)
+10. Terms & Conditions (short & professional)
+11. Closing Statement & Next Steps
 
-Title Page  
-(Project Name + Client Name)
+FORMATTING:
+- Use headings and subheadings
+- Use bullet points where required
+- Keep it professional and proposal-ready
+- Output should be directly usable as a Business Proposal document
 
-Introduction & Understanding of Client Needs  
-(2–3 professional paragraphs)
-
-Our Company Overview  
-(Short, relevant, credibility-focused)
-
-Proposed Solution  
-(Clearly mapped to client needs, paragraph + bullets)
-
-Scope of Work  
-(Bullet points only)
-
-Deliverables  
-(Bullet points only)
-
-Timeline & Milestones  
-(Clear phases or weeks)
-
-Pricing / Commercials  
-(If not provided, clearly mention: "To be discussed")
-
-Why Choose Us  
-(Bulleted unique advantages)
-
-Terms & Conditions  
-(Short, professional bullet points)
-
-Closing Statement & Next Steps  
-(Strong, confident closing paragraph)
-
-FORMATTING INSTRUCTIONS (VERY IMPORTANT):
-- Use clear section headings
-- Leave ONE blank line between sections
-- Leave ONE blank line between paragraphs
-- Use proper bullet points (• or -)
-- Do NOT compress text
-- Output must look like a real business proposal
-- DO NOT write everything in a single paragraph
-- DO NOT remove spaces between words
-
-INPUT:
+INPUT FORMAT YOU WILL RECEIVE:
 ---
 COMPANY PROPOSAL:
-${req.companyProposal}
+<<< Paste company proposal text here >>>
+ ${req.companyProposal}
 
-CLIENT REQUIREMENTS:
-${req.ClientProposal}
+CLIENT PROPOSAL / REQUIREMENTS:
+<<< Paste client proposal text here >>>
+ ${req.ClientProposal}
 ---
 
 OUTPUT:
-Generate a complete, cleanly formatted, client-ready Business Proposal.
-and plzz give me this ready to use and date also feel persent date.
-`;
+Generate a complete, polished, client-ready Business Proposal.
+Please generate the proposal using real line breaks.
+Do NOT use \n or \\n anywhere.
+Each section should start on a new line.`
 
 
 async function main() {
@@ -143,7 +119,7 @@ async function getGroqChatCompletion() {
     messages: [
        {
             role: "system",
-            content: "You are a professional proposal writer."
+            content: "You are a professional proposal writer ."
           },
       {
         role: "user",
