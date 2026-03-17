@@ -5,6 +5,10 @@ let userpdf=new mongoose.Schema({
   name:{type:String,
     required:"false"
   },
+  clientName:{
+     type:String,
+     required:false
+  },
   textContent:{
      type:String,
      required:true

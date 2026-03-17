@@ -6,7 +6,10 @@ const UserSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true },
     role: { type: String, enum: ["Admin", "user"], default: "user", required: true },
     password: { type: String, required: true },
-
+    UserRoleIDs:{
+           type:mongoose.Schema.Types.ObjectId,
+           ref:"UserPDF"
+    }
     
   },
   {

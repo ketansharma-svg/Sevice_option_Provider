@@ -94,9 +94,9 @@ export async function Pdftextextract(req: NextRequest) {
     const result = await mammoth.extractRawText({ buffer });
     const text = result.value;
 
-    const value = await getAuthUser();
-
-    if (value?.role === "Admin") {
+    const Auth = await getAuthUser();
+// console.log("value savedData",value)
+    if (Auth?.role === "Admin") {
       const create = new PDF({
         name,
         textContent: text,
@@ -112,6 +112,7 @@ export async function Pdftextextract(req: NextRequest) {
       let savedata=await create.save()
 
       console.log("savedData",savedata._id)
+       
          if(!Branch|| typeof Branch!=="string")return NextResponse.json({message:Branch })
         let objectID=new mongoose.Types.ObjectId(Branch)
 
@@ -119,17 +120,24 @@ export async function Pdftextextract(req: NextRequest) {
         console.log("Admin pdf id data find hogya h ",AdminPDfind)
         if(!AdminPDfind) return NextResponse.json({message:"Branch do not find"})
         console.log("this value founds",AdminPDfind.textContent,text)
+      
+
+
       let value={
          companyProposal:AdminPDfind.textContent,
          ClientProposal:text
         
 
       }
-         let mainProposal= await AIProposal(value)
-         console.log("mainProposal",mainProposal)
-        
+      let mainProposal= await AIProposal(value)
+      console.log("mainProposal",mainProposal)
+      
+      let AUth=await AuthUser.findByIdAndUpdate(Auth?._id.toString(),{ $set:{UserRoleIDs:savedata._id}},{new:true})
          let updatingvalue=await UserPDF.findByIdAndUpdate(savedata._id.toString(),{$set:{Output:mainProposal}},{new:true})
        console.log("updatingvalue",updatingvalue)
+       
+      
+console.log("hua ya nhi ab pta chlega na ",AUth)
          
 
     }
